@@ -53,6 +53,17 @@ app.get("/home", async (req, res) => {
     }); 
 });
 
+app.get(`/home/team`, async (req, res) => {
+    const selectedLeague = req.query.leagues;
+    const  { competitionCountry, competitionName, teamNames } = await getSpecificDetsFromJson(selectedLeague);
+    console.log(competitionCountry);
+    res.json({
+        cmpName: competitionName,
+        cmpCountry: competitionCountry,
+        tName: teamNames
+    });
+})
+
 // 2. Background Sync Function
 async function syncFootballData() {
     try {
@@ -145,4 +156,30 @@ async function readFromJson(filename) {
     } catch (err) {
         console.error(`Error reading ${filename}:`, err.message);
     }
+}
+
+async function getSpecificDetsFromJson(league) {
+    let competitionName = [];
+    let competitionCountry = [];
+    let teamNames = [];
+
+    const leagueFile = `./data/${league}-league-details.json`;
+    const leagueData = await readFromJson(leagueFile);
+    
+    if (leagueData && leagueData.competition && leagueData.area) {
+        competitionName.push(leagueData.competition.name);
+        competitionCountry.push(leagueData.area.name);
+    }
+
+    // 2. Read Team Details
+    const teamFile = `./data/${league}-team-details.json`;
+    const teamData = await readFromJson(teamFile);
+    
+    if (teamData && teamData.teams) {
+        teamData.teams.forEach(team => {
+            teamNames.push(team.name);
+        });
+    }
+    
+    return { competitionCountry, competitionName, teamNames };
 }

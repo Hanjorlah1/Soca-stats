@@ -46,7 +46,19 @@
         </svg>
       </div>
       <div>
-        <p class="date-bar-nav-text">Premier League</p>
+        <form action="/home/team" method="GET" id="league-form">
+          <select name="leagues" id="league">
+            <option value="PL">Premier League</option>
+            <option value="PD">La Liga</option>
+            <option value="BL1">Bundesliga</option>
+            <option value="SA">Serie A</option>
+            <option value="FL1">Ligue 1</option>
+            <option value="CL">UEFA Champions League</option>
+            <option value="PPL">Primeira Liga</option>
+            <option value="DED">Eredivisie</option>
+          </select>
+        </form>
+
         <p class="date-bar-nav-text">2025/2026</p>
       </div>
       <div class="date-bar-nav-btn" >
@@ -56,7 +68,8 @@
       </div>
     </div>
     <div class="container-fluid btn-div">
-      <button type="button" class="btn">Table</button>
-      <button type="button" class="btn">Scorers</button>
       <button type="button" class="btn">Teams</button>
+      <button type="button" class="btn">Scorers</button>
+      <button type="button" class="btn">Table</button>
+    </div>
   </div>
