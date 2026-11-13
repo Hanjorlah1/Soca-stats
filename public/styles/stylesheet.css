@@ -1,3 +1,6 @@
+/* =========================================
+   1. BASE & GLOBAL STYLES
+   ========================================= */
 * {
   box-sizing: border-box;
 }
@@ -6,6 +9,17 @@ body {
   margin: 0;
 }
 
+body > div {
+  padding-top: 150px;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* =========================================
+   2. NAVIGATION BAR
+   ========================================= */
 nav {
   padding: 15px;
   margin: 0;
@@ -15,18 +29,11 @@ nav {
   background-color: #2B2C2F;
 }
 
-.bar-div {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-}
-
-a {
-  text-decoration: none;
+.brand-logo {
   font-size: 40px;
 }
 
-ul {
+.nav-ul {
   padding: 0;
   margin: 0;
   list-style: none;
@@ -40,6 +47,12 @@ ul {
   display: none;
 }
 
+.bar-div {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
 .bar {
   height: 3px;
   width: 30px;
@@ -47,10 +60,9 @@ ul {
   margin: 0;
 }
 
-body > div {
-  padding-top: 150px;
-}
-
+/* =========================================
+   3. DATE BAR & LEAGUE SELECTOR
+   ========================================= */
 .date-bar {
   height: 80px;
   border-radius: 15px;
@@ -58,6 +70,7 @@ body > div {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 
 .date-bar-nav-btn {
@@ -68,6 +81,17 @@ body > div {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease;
+}
+
+.date-bar-nav-btn:hover {
+  background-color: #ffffff;
+  transform: scale(1.08);
+}
+
+.date-bar-nav-btn:active {
+  transform: scale(0.92);
 }
 
 .date-bar-nav-text {
@@ -75,6 +99,40 @@ body > div {
   text-align: center;
 }
 
+#league {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 16px;
+  font-family: inherit;
+  color: #ffffff;
+  cursor: pointer;
+  outline: none;
+  text-align: center;
+  text-align-last: center;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+#league:hover,
+#league:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-bottom-color: #ffffff;
+}
+
+#league option {
+  background-color: #2B2C2F;
+  color: #ffffff;
+  text-align: center;
+}
+
+/* =========================================
+   4. TAB NAVIGATION BUTTONS
+   ========================================= */
 .btn-div {
   margin-top: 10px;
   padding: 10px;
@@ -87,7 +145,107 @@ body > div {
 .btn {
   height: auto;
   width: 100px;
-  padding: 4px 10px;
+  padding: 8px 12px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #B9BDC6;
   background-color: #2B2C2F;
+  border: 1px solid transparent;
+  border-radius: 8px;
   flex-shrink: 0;
+  text-align: center;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background-color 0.2s ease,
+              color 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  color: #ffffff;
+  background-color: #3a3b3f;
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn.active-tab {
+  background-color: #0066cc;
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.4);
+}
+
+/* =========================================
+   5. PAGE CONTENT, HEADING & TEAM LIST
+   ========================================= */
+.page-div {
+  padding-top: 12px;
+}
+
+.team-heading-div {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: 10px;
+  animation: fadeSlideUp 0.35s ease forwards;
+}
+
+#comp-name,
+#comp-country {
+  margin: 0;
+}
+
+#team-list {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.team-name-div {
+  width: 100%;
+  margin: 0;
+  padding: 20px;
+  background-color: #2B2C2F;
+  color: #ffffff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  animation: fadeSlideUp 0.35s ease backwards;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.team-name-div:hover {
+  background-color: #36383c;
+  transform: translateX(6px);
+}
+
+.competition-logo,
+.team-logo {
+  height: 50px;
+  width: 50px;
+  margin: 0;
+  transition: transform 0.25s ease;
+}
+
+.team-name-div:hover .team-logo {
+  transform: scale(1.08);
+}
+
+/* =========================================
+   6. ANIMATIONS
+   ========================================= */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

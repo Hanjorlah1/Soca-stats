@@ -1,13 +1,20 @@
-<%-include("./partials/header.ejs")  %>
-    <div>
-        <h1 id="comp-name"><%= cmpName %></h1>
-        <p id="comp-country"> <%= cmpCountry %> </p>
+<%- include("./partials/header.ejs") %>
+    <div class="container-fluid page-div">
+        <div class="team-heading-div">
+            <img src="<%= cmpLogo %>" alt="Team Logo" class="competition-logo">
+            <h1 id="comp-name"><%= cmpName %></h1>
+            <p id="comp-country"><%= cmpCountry %></p>
+        </div>
 
         <ul id="team-list">
-            <% tName.forEach(team => { %>
-                <li> <%= team %> </li>
-           <% }) %>
-        </ul>
+        <% tName.forEach((team, index) => { %>
+        <li class="container-fluid team-name-div team-name">
+            <img src="<%= tLogo[index] %>" alt="<%= team %> logo" class="team-logo">
+            <span><%= team %></span>
+        </li>
+    <% }) %>
+</ul>
+
     </div>
 <script src="/js/script.js"></script>
 </body>

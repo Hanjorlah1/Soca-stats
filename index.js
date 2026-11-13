@@ -20,48 +20,40 @@ app.get("/", (req, res) => {
 });
 
 app.get("/home", async (req, res) => {
-    let competitionName = [];
-    let competitionCountry = [];
-    let teamNames = [];
+    const  { competitionCountry, competitionName, teamNames, competitionLogo, teamLogo } = await getSpecificDetsFromJson("PL");
+    console.log(competitionCountry);
+    res.render("index", {
+        cmpName: competitionName,
+        cmpCountry: competitionCountry,
+        tName: teamNames,
+        cmpLogo: competitionLogo,
+        tLogo: teamLogo
+    });
 
-    for (let i = 0; i < cmpCodes.length; i++) {
-        // 1. Read League Details
-        const leagueFile = `./data/${cmpCodes[i]}-league-details.json`;
-        const leagueData = await readFromJson(leagueFile);
-        
-        if (leagueData && leagueData.competition && leagueData.area) {
-            competitionName.push(leagueData.competition.name);
-            competitionCountry.push(leagueData.area.name);
-        }
-
-        // 2. Read Team Details
-        const teamFile = `./data/${cmpCodes[i]}-team-details.json`;
-        const teamData = await readFromJson(teamFile);
-        
-        if (teamData && teamData.teams) {
-            teamData.teams.forEach(team => {
-                teamNames.push(team.name);
-            });
-        }
-    }
-
-    // Render the view with the populated arrays
-    res.render("index", { 
-        "cmpName": competitionName, 
-        "cmpCountry": competitionCountry, 
-        "tName": teamNames 
-    }); 
 });
 
 app.get(`/home/team`, async (req, res) => {
     const selectedLeague = req.query.leagues;
-    const  { competitionCountry, competitionName, teamNames } = await getSpecificDetsFromJson(selectedLeague);
+     if (!cmpCodes.includes(selectedLeague)) {
+        return res.status(400).json({ error: "Invalid league code" });
+    }
+    const  { competitionCountry, competitionName, teamNames, competitionLogo, teamLogo } = await getSpecificDetsFromJson(selectedLeague);
     console.log(competitionCountry);
     res.json({
         cmpName: competitionName,
         cmpCountry: competitionCountry,
-        tName: teamNames
+        tName: teamNames,
+        cmpLogo: competitionLogo,
+        tLogo: teamLogo
     });
+})
+
+app.get(`/home/scorer`, async (req, res) => {
+    res.render("scorers.ejs")
+})
+
+app.get(`/home/table`, async (req, res) => {
+    res.render("table.ejs")
 })
 
 // 2. Background Sync Function
@@ -101,7 +93,9 @@ async function syncFootballData() {
 app.listen(port, () => {
     console.log(`App running on port: ${port}`);
     syncFootballData();
+    setInterval(syncFootballData, 6 * 60 * 60 * 1000);
 });
+
 
 async function getLeagueDetails(code){
     try {
@@ -159,27 +153,31 @@ async function readFromJson(filename) {
 }
 
 async function getSpecificDetsFromJson(league) {
-    let competitionName = [];
-    let competitionCountry = [];
+    let competitionName = "";
+    let competitionCountry = "";
     let teamNames = [];
+    let teamLogo = [];
+    let competitionLogo = "";
 
     const leagueFile = `./data/${league}-league-details.json`;
     const leagueData = await readFromJson(leagueFile);
     
     if (leagueData && leagueData.competition && leagueData.area) {
-        competitionName.push(leagueData.competition.name);
-        competitionCountry.push(leagueData.area.name);
+        competitionName = leagueData.competition.name;
+        competitionCountry = leagueData.area.name;
+        competitionLogo = leagueData.competition.emblem;
     }
 
-    // 2. Read Team Details
     const teamFile = `./data/${league}-team-details.json`;
     const teamData = await readFromJson(teamFile);
     
     if (teamData && teamData.teams) {
         teamData.teams.forEach(team => {
             teamNames.push(team.name);
+            teamLogo.push(team.crest);
         });
     }
     
-    return { competitionCountry, competitionName, teamNames };
+    return { competitionCountry, competitionName, teamNames, competitionLogo, teamLogo };
 }
+
