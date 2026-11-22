@@ -40,36 +40,35 @@
   </header>
   <div class="container-fluid ">
     <div class="container-fluid date-bar">
-      <div class="date-bar-nav-btn">
+      <a <% if (prevYear) { %>href="?leagues=<%= league %>&season=<%= prevYear %>"<% } %> class="date-bar-nav-btn <%= prevYear ? "" : "disabled" %>" title="Previous season">
         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
           <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
         </svg>
-      </div>
+      </a>
       <div>
-        <form action="/home/team" method="GET" id="league-form">
+        <form method="GET" id="league-form">
+          <% if (seasonYear) { %>
+          <input type="hidden" name="season" value="<%= seasonYear %>">
+          <% } %>
           <select name="leagues" id="league">
-            <option value="PL">Premier League</option>
-            <option value="PD">La Liga</option>
-            <option value="BL1">Bundesliga</option>
-            <option value="SA">Serie A</option>
-            <option value="FL1">Ligue 1</option>
-            <option value="CL">UEFA Champions League</option>
-            <option value="PPL">Primeira Liga</option>
-            <option value="DED">Eredivisie</option>
+            <% Object.entries(leagueNames).forEach(([code, name]) => { %>
+            <option value="<%= code %>" <%= code === league ? "selected" : "" %>><%= name %></option>
+            <% }) %>
           </select>
         </form>
 
-        <p class="date-bar-nav-text">2025/2026</p>
+        <p class="date-bar-nav-text"><%= season %></p>
       </div>
-      <div class="date-bar-nav-btn">
+      <a <% if (nextYear) { %>href="?leagues=<%= league %>&season=<%= nextYear %>"<% } %> class="date-bar-nav-btn <%= nextYear ? "" : "disabled" %>" title="Next season">
         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
           <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
         </svg>
-      </div>
+      </a>
     </div>
     <div class="container-fluid btn-div">
-      <a href="/home" class="btn" id="teamBtn">Teams</a>
-      <a href="/home/scorer" class="btn" id="scorerBtn">Scorers</a>
-      <a href="/home/table" class="btn" id="tableBtn">Table</a>
+      <% const query = "?leagues=" + league + (seasonYear ? "&season=" + seasonYear : ""); %>
+      <a href="/home<%= query %>" class="btn" id="teamBtn">Teams</a>
+      <a href="/home/scorer<%= query %>" class="btn" id="scorerBtn">Scorers</a>
+      <a href="/home/table<%= query %>" class="btn" id="tableBtn">Table</a>
     </div>
   </div>

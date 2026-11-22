@@ -1,9 +1,33 @@
+<%- include("./partials/header.ejs") %>
+    <div class="container-fluid page-div">
+        <%- include("./partials/heading.ejs") %>
 
-<%-include("./partials/header.ejs")  %>
+        <% if (scorers.length === 0) { %>
+        <p class="empty-message">No data to show. The server may still be downloading it (wait a minute and refresh), or this season is not available on your API plan.</p>
+        <% } %>
 
-
-
-
+        <ul class="scorer-list">
+        <% scorers.forEach((scorer, index) => { %>
+        <li class="container-fluid team-name-div scorer-row">
+            <span class="scorer-rank"><%= index + 1 %></span>
+            <img src="<%= scorer.team.crest %>" alt="<%= scorer.team.name %> logo" class="team-logo">
+            <div class="scorer-info">
+                <span class="scorer-name"><%= scorer.player.name %></span>
+                <span class="scorer-team"><%= scorer.team.name %></span>
+                <span class="scorer-extra">
+                    Played: <%= scorer.playedMatches %> |
+                    Assists: <%= scorer.assists ?? "-" %> |
+                    Penalties: <%= scorer.penalties ?? "-" %>
+                </span>
+            </div>
+            <div class="scorer-goals">
+                <span class="goals-number"><%= scorer.goals %></span>
+                <span class="goals-label">goals</span>
+            </div>
+        </li>
+        <% }) %>
+        </ul>
+    </div>
 <script src="/js/script.js"></script>
 </body>
 </html>

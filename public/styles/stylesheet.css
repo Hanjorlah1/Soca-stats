@@ -85,6 +85,18 @@ nav {
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease;
 }
 
+/* the arrows are links now, so we set the arrow colour ourselves */
+.date-bar-nav-btn {
+  color: #2B2C2F;
+}
+
+/* greyed out when there is no older/newer season to go to */
+.date-bar-nav-btn.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .date-bar-nav-btn:hover {
   background-color: #ffffff;
   transform: scale(1.08);
@@ -197,7 +209,8 @@ nav {
   margin: 0;
 }
 
-#team-list {
+#team-list,
+.scorer-list {
   list-style: none;
   padding-left: 0;
   display: flex;
@@ -237,7 +250,121 @@ nav {
 }
 
 /* =========================================
-   6. ANIMATIONS
+   6. SCORERS PAGE
+   ========================================= */
+.scorer-rank {
+  width: 25px;
+  font-weight: 700;
+  color: #B9BDC6;
+  text-align: center;
+}
+
+.scorer-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.scorer-name {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.scorer-team,
+.scorer-extra {
+  font-size: 13px;
+  color: #B9BDC6;
+}
+
+.scorer-goals {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.goals-number {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0066cc;
+}
+
+.goals-label {
+  font-size: 12px;
+  color: #B9BDC6;
+}
+
+/* =========================================
+   7. TABLE PAGE
+   ========================================= */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  animation: fadeSlideUp 0.35s ease forwards;
+}
+
+.league-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #2B2C2F;
+  color: #ffffff;
+}
+
+.league-table th,
+.league-table td {
+  padding: 12px 8px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.league-table th {
+  color: #B9BDC6;
+  font-size: 13px;
+  border-bottom: 1px solid #3a3b3f;
+}
+
+.league-table tbody tr {
+  border-bottom: 1px solid #3a3b3f;
+  transition: background-color 0.2s ease;
+}
+
+.league-table tbody tr:hover {
+  background-color: #36383c;
+}
+
+.league-table .team-col {
+  text-align: left;
+}
+
+.team-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.table-logo {
+  height: 25px;
+  width: 25px;
+}
+
+.league-table .points {
+  font-weight: 700;
+  color: #0066cc;
+}
+
+.group-name {
+  margin: 15px 0 10px;
+  text-transform: capitalize;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 30px 10px;
+}
+
+/* =========================================
+   8. ANIMATIONS
    ========================================= */
 @keyframes fadeSlideUp {
   from {

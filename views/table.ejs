@@ -1,5 +1,56 @@
-<%-include("./partials/header.ejs")  %>
+<%- include("./partials/header.ejs") %>
+    <div class="container-fluid page-div">
+        <%- include("./partials/heading.ejs") %>
 
+        <% if (tables.length === 0) { %>
+        <p class="empty-message">No data to show. The server may still be downloading it (wait a minute and refresh), or this season is not available on your API plan.</p>
+        <% } %>
+
+        <% tables.forEach((standing) => { %>
+
+        <%# Some competitions (like group stages) have a group name %>
+        <% if (standing.group) { %>
+        <h2 class="group-name"><%= standing.group.replace("_", " ") %></h2>
+        <% } %>
+
+        <div class="table-wrapper">
+            <table class="league-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th class="team-col">Team</th>
+                        <th>P</th>
+                        <th>W</th>
+                        <th>D</th>
+                        <th>L</th>
+                        <th>GD</th>
+                        <th>Pts</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% standing.table.forEach((row) => { %>
+                    <tr>
+                        <td><%= row.position %></td>
+                        <td class="team-col">
+                            <div class="team-cell">
+                                <img src="<%= row.team.crest %>" alt="<%= row.team.name %> logo" class="table-logo">
+                                <span><%= row.team.shortName || row.team.name %></span>
+                            </div>
+                        </td>
+                        <td><%= row.playedGames %></td>
+                        <td><%= row.won %></td>
+                        <td><%= row.draw %></td>
+                        <td><%= row.lost %></td>
+                        <td><%= row.goalDifference %></td>
+                        <td class="points"><%= row.points %></td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+        <% }) %>
+    </div>
 <script src="/js/script.js"></script>
- </body> 
+</body>
 </html>
